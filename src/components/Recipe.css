@@ -1,0 +1,30 @@
+.recipe-container{
+    height:auto;
+    width:90%;
+    border-radius: 20px;
+    background-color:rgb(255, 255, 255);
+    box-shadow: 2px 5px 5px rgba(0, 0, 0, 0.466);
+    padding: 15px;
+    margin: 15px auto;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+
+    transition: all 1s ease-in-out 0s;
+}
+
+button{
+    width: 50%;
+    height: 40px;
+    border:solid 1px rgb(255, 185, 33);
+    background:transparent;
+    color:orangered;
+    text-transform: uppercase;
+    font-weight: bolder;
+}
+
+.recipe-container > *{
+    margin: 15px 0;
+}
