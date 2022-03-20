@@ -22,10 +22,32 @@ function App() {
   const id = '4b353692';
 
   useEffect(() => {
+    //localStorage.clear();
 
-
-
+    const fav = JSON.parse(localStorage.getItem('recipe-favorites'));
+    console.log(fav);
+    if (fav != null) {
+      setFavorites(fav);
+      console.log('Il ya des favoris');
+    } else {
+      setFavorites([]);
+      console.log('Il ya pas de favoris');
+    }
   }, [])
+
+  const addFavorite = (recipe) => {
+
+    const array = favorites;
+
+    if (!array.some((r) => r.recipe.label == recipe.recipe.label)) {
+      array.push(recipe);
+      const favString = JSON.stringify(array);
+      localStorage.setItem('recipe-favorites', favString);
+      setFavorites(array);
+    } else {
+      alert('NON');
+    }
+  }
 
   const getRecipe = async (e) => {
     navigate('/');
@@ -43,36 +65,36 @@ function App() {
   }
 
   return (
-    
-      <div className="App">
-        <nav>
-          <div className="nav-container">
-            <form id='search-form' onSubmit={getRecipe}>
-              <input type="text" onChange={changeIngredient}></input>
-              <button className="search-btn" onClick={getRecipe}>Rechercher</button>
-            </form>
-            <Link to='/favorites'>FAVORITES</Link>
-          </div>
-        </nav>
+
+    <div className="App">
+      <nav>
+        <div className="nav-container">
+          <form id='search-form' onSubmit={getRecipe}>
+            <input type="text" onChange={changeIngredient}></input>
+            <button className="search-btn" onClick={getRecipe}>Rechercher</button>
+          </form>
+          <Link to='/favorites'>FAVORITES</Link>
+        </div>
+      </nav>
 
 
-        <Routes>
-          <Route exact path="/" element={<Home recipes={recipes} />} />
-          <Route exact path="/favorites" element={<Favorites />} />
-        </Routes>
+      <Routes>
+        <Route exact path="/" element={<Home recipes={recipes} addFavorite={addFavorite} />} />
+        <Route exact path="/favorites" element={<Favorites />} />
+      </Routes>
 
 
-      </div>
+    </div>
   );
 }
 
 
-const Home = ({ recipes }) => {
+const Home = ({ recipes, addFavorite }) => {
   return (
     <main>
       <div className='disp-container'>
         {recipes.map((recipe, index) => (
-          <Recipe recipe={recipe} key={index}/>
+          <Recipe recipe={recipe} key={index} addFavorite={() => addFavorite(recipe)} />
         ))}
       </div>
     </main>
