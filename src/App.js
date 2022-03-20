@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 
 import Recipe from './components/Recipe';
 
-import { BrowserRouter as Router, Route, Routes, Link, useNavigate } from 'react-router-dom';
+import { Route, Routes, Link, useNavigate } from 'react-router-dom';
 
 import './components/Navbar.css';
 import './App.css';
@@ -23,7 +23,11 @@ function App() {
 
   useEffect(() => {
     //localStorage.clear();
+    getFav();
+    
+  }, [])
 
+  const getFav = () => {
     const fav = JSON.parse(localStorage.getItem('recipe-favorites'));
     console.log(fav);
     if (fav != null) {
@@ -33,11 +37,11 @@ function App() {
       setFavorites([]);
       console.log('Il ya pas de favoris');
     }
-  }, [])
+  }
 
   const addFavorite = (recipe) => {
 
-    const array = favorites;
+    let array = favorites;
 
     if (!array.some((r) => r.recipe.label == recipe.recipe.label)) {
       array.push(recipe);
@@ -45,8 +49,16 @@ function App() {
       localStorage.setItem('recipe-favorites', favString);
       setFavorites(array);
     } else {
-      alert('NON');
+      console.log(array);
+      console.log("suppression")
+      array = array.filter(r => r.recipe.label != recipe.recipe.label);
+      console.log(array);
+      
+      const favString = JSON.stringify(array);
+      localStorage.setItem('recipe-favorites', favString);
+      setFavorites(array);
     }
+    getFav();
   }
 
   const getRecipe = async (e) => {
@@ -73,14 +85,14 @@ function App() {
             <input type="text" onChange={changeIngredient}></input>
             <button className="search-btn" onClick={getRecipe}>Rechercher</button>
           </form>
-          <Link to='/favorites'>FAVORITES</Link>
+          <Link to='/favorites' className='fav-btn'>Favoris</Link>
         </div>
       </nav>
 
 
       <Routes>
-        <Route exact path="/" element={<Home recipes={recipes} addFavorite={addFavorite} />} />
-        <Route exact path="/favorites" element={<Favorites />} />
+        <Route exact path="/" element={<Home recipes={recipes} favorites={favorites} addFavorite={addFavorite} />} />
+        <Route exact path="/favorites" element={<Favorites fav={favorites} recipes={recipes} addFavorite={addFavorite} />} />
       </Routes>
 
 
@@ -89,16 +101,22 @@ function App() {
 }
 
 
-const Home = ({ recipes, addFavorite }) => {
+const Home = ({ recipes, addFavorite, favorites }) => {
+
+
   return (
     <main>
       <div className='disp-container'>
-        {recipes.map((recipe, index) => (
-          <Recipe recipe={recipe} key={index} addFavorite={() => addFavorite(recipe)} />
-        ))}
+        {recipes.map((recipe, index) => {
+          
+          const isFav = favorites.some(r => r.recipe.label == recipe.recipe.label);
+
+          return <Recipe recipe={recipe} key={index} fav={isFav} addFavorite={() => addFavorite(recipe)} />
+        })}
       </div>
     </main>
   )
+
 }
 
 export default App;
