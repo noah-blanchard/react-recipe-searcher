@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 
 import Recipe from './components/Recipe';
 
-import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes, Link, useNavigate } from 'react-router-dom';
 
 import './components/Navbar.css';
 import './App.css';
@@ -11,6 +11,8 @@ import Favorites from './Favorites';
 
 
 function App() {
+
+  let navigate = useNavigate();
 
   const [ingredient, setIngredient] = useState('none');
   const [recipes, setRecipes] = useState([]);
@@ -21,9 +23,12 @@ function App() {
 
   useEffect(() => {
 
+
+
   }, [])
 
   const getRecipe = async (e) => {
+    navigate('/');
     e.preventDefault();
     console.log(ingredient);
     const response = await fetch(`https://api.edamam.com/search?q=${ingredient}&app_id=${id}&app_key=${key}`);
@@ -38,24 +43,26 @@ function App() {
   }
 
   return (
-    <div className="App">
-      <nav>
-        <div className="nav-container">
-          <form id='search-form' onSubmit={getRecipe}>
-            <input type="text" onChange={changeIngredient}></input>
-            <button className="search-btn" onClick={getRecipe}>Rechercher</button>
-          </form>
-        </div>
-      </nav>
+    
+      <div className="App">
+        <nav>
+          <div className="nav-container">
+            <form id='search-form' onSubmit={getRecipe}>
+              <input type="text" onChange={changeIngredient}></input>
+              <button className="search-btn" onClick={getRecipe}>Rechercher</button>
+            </form>
+            <Link to='/favorites'>FAVORITES</Link>
+          </div>
+        </nav>
 
-      <Router>
+
         <Routes>
-          <Route exact path="/" element={<Home recipes={recipes} />}/>
-          <Route exact path="/favorites" element={<Favorites />}          
+          <Route exact path="/" element={<Home recipes={recipes} />} />
+          <Route exact path="/favorites" element={<Favorites />} />
         </Routes>
-      </Router>
 
-    </div>
+
+      </div>
   );
 }
 
@@ -64,8 +71,8 @@ const Home = ({ recipes }) => {
   return (
     <main>
       <div className='disp-container'>
-        {recipes.map(recipe => (
-          <Recipe recipe={recipe} />
+        {recipes.map((recipe, index) => (
+          <Recipe recipe={recipe} key={index}/>
         ))}
       </div>
     </main>

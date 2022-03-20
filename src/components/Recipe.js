@@ -2,7 +2,7 @@ import React, {useState} from 'react'
 import './Recipe.css';
 
 
-function Recipe({recipe}) {
+function Recipe({recipe, index}) {
 
   const [buttonText, setButtonText] = useState('More');
   const [buttonState, setButtonState] = useState(false);
@@ -23,15 +23,15 @@ function Recipe({recipe}) {
 
     return (
         <>
-          <div className="recipe-container">
+          <div className="recipe-container" key={index}>
             <h1>
               {recipe.recipe.label}
             </h1>
             <img src={recipe.recipe.image} alt='Recipe'></img>
 
             <ul style={{display: listStyle}}>
-            {ingredients.map(ingredient => (
-                <li>{ingredient}</li>
+            {ingredients.map((ingredient, index) => (
+                <li key={index}>{ingredient}</li>
              ))}
             </ul>
 
