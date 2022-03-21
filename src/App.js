@@ -9,6 +9,8 @@ import './App.css';
 import './components/Display.css';
 import Favorites from './Favorites';
 
+import Edamam from './light.png';
+
 
 function App() {
 
@@ -86,7 +88,9 @@ function App() {
             <button className="search-btn" onClick={getRecipe}>Search</button>
           </form>
           <Link to='/favorites' className='fav-btn'>Favourites</Link>
+          <img src={Edamam} alt="Edamam"></img>
         </div>
+        
       </nav>
 
 
@@ -94,6 +98,10 @@ function App() {
         <Route exact path="/" element={<Home recipes={recipes} favorites={favorites} addFavorite={addFavorite} />} />
         <Route exact path="/favorites" element={<Favorites fav={favorites} recipes={recipes} addFavorite={addFavorite} />} />
       </Routes>
+
+      <footer>
+       
+      </footer>
 
 
     </div>

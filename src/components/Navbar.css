@@ -46,6 +46,8 @@ nav {
     color: black;
     border-color: grey;
     text-decoration: none;
+    margin-right: 50px;
+
 }
 
 .fav-btn:hover {
