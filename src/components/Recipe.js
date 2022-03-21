@@ -36,12 +36,16 @@ function Recipe({ recipe, index, addFavorite, fav }) {
           ))}
         </ul>
 
+        <h3>
+          <a href={recipe.recipe.url}>Link to the full recipe</a>
+        </h3>
+
         <button className='voir-plus' onClick={buttonClicked}>
           {buttonText}
         </button>
         <button className='voir-plus' onClick={addFavorite}>
           {
-            fav ? "Supprimer des favoris" : "Ajouter aux favoris"
+            fav ? "Remove from favourites" : "Add to favourites"
           }
         </button>
       </div>

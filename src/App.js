@@ -83,9 +83,9 @@ function App() {
         <div className="nav-container">
           <form id='search-form' onSubmit={getRecipe}>
             <input type="text" onChange={changeIngredient}></input>
-            <button className="search-btn" onClick={getRecipe}>Rechercher</button>
+            <button className="search-btn" onClick={getRecipe}>Search</button>
           </form>
-          <Link to='/favorites' className='fav-btn'>Favoris</Link>
+          <Link to='/favorites' className='fav-btn'>Favourites</Link>
         </div>
       </nav>
 
